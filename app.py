@@ -23,6 +23,7 @@ class Question(db.Model):
     email = db.Column(db.String(120), nullable=False)
     text = db.Column(db.String(500), nullable=False)
 
+class Community():#여기기
 
 def get_user_info(email):
     user = User.query.filter_by(email=email).first()
@@ -142,6 +143,9 @@ def mypage():
             return render_template('mypage.html', msg = "비밀번호 규칙을 확인하세요.",uid=uid) 
     return render_template('mypage.html',uid=uid)
 
+@app.route('/community', methods=['GET', 'POST'])
+def community():
+#여기
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port="5000", debug=True)
