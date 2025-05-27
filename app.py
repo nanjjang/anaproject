@@ -5,7 +5,7 @@ from controller import hash_password
 from controller import unhash_password
 import re
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SECRET_KEY'] = 'my_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -22,8 +22,6 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(120), nullable=False)
     text = db.Column(db.String(500), nullable=False)
-
-class Community():#여기기
 
 def get_user_info(email):
     user = User.query.filter_by(email=email).first()
@@ -143,9 +141,18 @@ def mypage():
             return render_template('mypage.html', msg = "비밀번호 규칙을 확인하세요.",uid=uid) 
     return render_template('mypage.html',uid=uid)
 
-@app.route('/community', methods=['GET', 'POST'])
-def community():
-#여기
+
+
+@app.route('/teamIntro')
+def teammemberIntroducing():
+    team_members = [
+    {"name": "윤준서", "role": "백엔드 개발자", "image": "static/yjs.jpg"},
+    {"name": "강상우", "role": "백엔드 개발자", "image": "static/gsw.jpg"},
+    {"name": "금재준", "role": "프론트 개발자", "image": "static/gjj.jpg"}
+    ]
+    return render_template('teammemberIntro.html', team=team_members)
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()#app.py와 db가 연결이 안돼서 강제로 연결시켜줌
     app.run(host="0.0.0.0", port="5000", debug=True)
